@@ -12,28 +12,25 @@ import java.util.Random;
  */
 public class CourseAssessment {
 
-    private Level level;
-    private Test test;
-
     public TestResult evaluate(Student student, Course course) {
-        fetchStudentLevel(student);
-        fetchMatchingTest(course);
-        return passingTest(student);
+        Level level = fetchStudentLevel(student); // Student -> level
+        Test test = fetchMatchingTest(course, level); // Course, level -> Test
+        return passingTest(student, test); // Student, Test -> TestResult
     }
 
-    private TestResult passingTest(Student student) {
+    private TestResult passingTest(Student student, Test test) {
         return student.passes(test);
     }
 
-    private void fetchMatchingTest(Course course) {
-        test = new Test(course.getName() + "_" + level.name());
+    private Test fetchMatchingTest(Course course, Level level) {
+        return new Test(course.getName() + "_" + level.name());
     }
 
-    private void fetchStudentLevel(Student student) {
-        level = switch (student.getExp()) {
-            case 1 ->  Level.BEG;
-            case 2 ->  Level.INTER;
-            default ->  Level.MASTER;
+    private Level fetchStudentLevel(Student student) {
+        return switch (student.getExp()) {
+            case 1 -> Level.BEG;
+            case 2 -> Level.INTER;
+            default -> Level.MASTER;
         };
     }
 
