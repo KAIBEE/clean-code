@@ -15,19 +15,11 @@ public class ConditionalExamples {
 
     // encapsulate conditionals
     public void someOtherMethod(User user, Country currentCountry) {
-        if (canVote(user, currentCountry)) {
+        if (user.canVote(currentCountry)) {
             System.out.println(user.getName() + " can vote");
         } else {
             System.out.println(user.getName() + " cannot vote");
         }
-    }
-
-    private static boolean canVote(User user, Country currentCountry) {
-        return isFullAged(user) && user.getNationalite().equals(currentCountry);
-    }
-
-    private static boolean isFullAged(User user) {
-        return user.getAge() >= 18;
     }
 
     private static boolean isAgedBrie(Item items) {
@@ -51,6 +43,14 @@ public class ConditionalExamples {
         private int age;
         private Country nationalite;
         private String name;
+
+        public boolean canVote(Country currentCountry) {
+            return this.isFullAged() && getNationalite().equals(currentCountry);
+        }
+
+        private boolean isFullAged() {
+            return getAge() >= 18;
+        }
 
 
         public int getAge() {
